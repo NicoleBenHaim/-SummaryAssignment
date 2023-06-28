@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Predict Price of House</title>
+</head>
+<body>
+  <h1>Predict Price of House</h1>
+  
+  <form id="prediction-form">
+    <label for="room-number">Number of Rooms:</label>
+    <input type="number" id="room-number" name="room-number" required><br><br>
+    
+    <label for="area">Area (in square meters):</label>
+    <input type="number" id="area" name="area" required><br><br>
+    
+    <label for="number-in-street">Number in Street:</label>
+    <input type="number" id="number-in-street" name="number-in-street" required><br><br>
+    
+    <label for="num-of-images">Number of Images:</label>
+    <input type="number" id="num-of-images" name="num-of-images" required><br><br>
+    
+    <label for="has-elevator">Has Elevator:</label>
+    <select id="has-elevator" name="has-elevator" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-parking">Has Parking:</label>
+    <select id="has-parking" name="has-parking" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-bars">Has Bars:</label>
+    <select id="has-bars" name="has-bars" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-storage">Has Storage:</label>
+    <select id="has-storage" name="has-storage" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-air-condition">Has Air Condition:</label>
+    <select id="has-air-condition" name="has-air-condition" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-balcony">Has Balcony:</label>
+    <select id="has-balcony" name="has-balcony" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="has-mamad">Has Mamad:</label>
+    <select id="has-mamad" name="has-mamad" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="handicap-friendly">Handicap Friendly:</label>
+    <select id="handicap-friendly" name="handicap-friendly" required>
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br><br>
+    
+    <label for="floor">Floor:</label>
+    <input type="number" id="floor" name="floor" required><br><br>
+    
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required><br><br>
+    
+    <label for="type">Type:</label>
+    <input type="text" id="type" name="type" required><br><br>
+    
+    <label for="street">Street:</label>
+    <input type="text" id="street" name="street" required><br><br>
+    
+    <label for="city-area">City Area:</label>
+    <input type="text" id="city-area" name="city-area" required><br><br>
+    
+    <label for="condition">Condition:</label>
+    <input type="text" id="condition" name="condition" required><br><br>
+    
+    <label for="furniture">Furniture:</label>
+    <input type="text" id="furniture" name="furniture" required><br><br>
+    
+    <label for="entrance-date">Entrance Date:</label>
+    <input type="text" id="entrance-date" name="entrance-date" required><br><br>
+    
+    <input type="submit" value="Predict Price">
+  </form>
+  
+  <h2>Predicted Price:</h2>
+  <p id="predicted-price"></p>
+  
+  <script>
+    document.getElementById("prediction-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      // Gather form values
+      var formData = {
+        room_number: parseInt(document.getElementById("room-number").value),
+        Area: parseInt(document.getElementById("area").value),
+        number_in_street: parseInt(document.getElementById("number-in-street").value),
+        num_of_images: parseInt(document.getElementById("num-of-images").value),
+        hasElevator: parseInt(document.getElementById("has-elevator").value),
+        hasParking: parseInt(document.getElementById("has-parking").value),
+        hasBars: parseInt(document.getElementById("has-bars").value),
+        hasStorage: parseInt(document.getElementById("has-storage").value),
+        hasAirCondition: parseInt(document.getElementById("has-air-condition").value),
+        hasBalcony: parseInt(document.getElementById("has-balcony").value),
+        hasMamad: parseInt(document.getElementById("has-mamad").value),
+        handicapFriendly: parseInt(document.getElementById("handicap-friendly").value),
+        floor: parseInt(document.getElementById("floor").value),
+        City: document.getElementById("city").value,
+        type: document.getElementById("type").value,
+        Street: document.getElementById("street").value,
+        city_area: document.getElementById("city-area").value,
+        condition: document.getElementById("condition").value,
+        furniture: document.getElementById("furniture").value,
+        entrance_date: document.getElementById("entrance-date").value
+      };
+      
+      // Send the form data to the server for prediction
+      fetch("/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Display the predicted price
+        document.getElementById("predicted-price").textContent = "Predicted Price: $" + data.predictedPrice.toFixed(2);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>
